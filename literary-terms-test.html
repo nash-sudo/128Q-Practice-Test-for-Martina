@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examen Completo — Términos Literarios</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e0c0a;
+  --surface: #181410;
+  --card: #1f1a14;
+  --border: #332b1e;
+  --border-hi: #5a4a2e;
+  --gold: #c9a84c;
+  --gold-dim: #7a6030;
+  --rust: #b85c38;
+  --sage: #5a8a5a;
+  --text: #e8dcc8;
+  --text-dim: #8a7a62;
+  --text-muted: #5a4e3a;
+  --correct-bg: #0f2010;
+  --correct-border: #3a6a3a;
+  --correct-text: #7ac87a;
+  --wrong-bg: #201008;
+  --wrong-border: #6a2a10;
+  --wrong-text: #d08060;
+  --reveal-bg: #121a10;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+header {
+  text-align: center;
+  padding: 3.5rem 2rem 2.5rem;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #13100a 0%, var(--bg) 100%);
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 2px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+.ornament { color: var(--gold-dim); font-size: 1.6rem; margin-bottom: 1rem; letter-spacing: 0.3em; }
+h1 {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+h1 span { display: block; font-size: 0.55em; font-weight: 400; font-style: italic; color: var(--text-dim); margin-top: 0.4rem; letter-spacing: 0.05em; }
+.meta { margin-top: 1.2rem; font-size: 0.88rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+#scorebar {
+  position: sticky; top: 0; z-index: 100;
+  background: #13100acc;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem 1.5rem;
+  display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+  justify-content: center;
+}
+.stat { display: flex; align-items: center; gap: 0.45rem; font-size: 0.85rem; }
+.stat-dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-g { background: var(--sage); }
+.dot-r { background: var(--rust); }
+.dot-y { background: var(--gold-dim); }
+.stat-val { font-weight: 600; font-size: 1rem; }
+.stat-label { color: var(--text-muted); }
+.progress-wrap { flex: 1; min-width: 120px; max-width: 280px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; background: linear-gradient(to right, var(--gold-dim), var(--gold)); transition: width 0.5s ease; border-radius: 2px; }
+main { max-width: 800px; margin: 0 auto; padding: 2rem 1.2rem 5rem; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  margin-bottom: 1.2rem;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--border-hi); }
+.card-top {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.65rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  background: #17120d;
+  flex-wrap: wrap;
+}
+.q-num { font-family: 'Libre Baskerville', serif; font-size: 0.72rem; font-weight: 700; color: var(--gold-dim); min-width: 2rem; letter-spacing: 0.06em; }
+.badge { font-size: 0.65rem; font-weight: 600; padding: 0.15rem 0.55rem; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.07em; white-space: nowrap; }
+.b3 { background: #1a1f1a; color: #6aaa6a; border: 1px solid #2a4a2a; }
+.b4 { background: #1f1a0e; color: #c0922a; border: 1px solid #4a3a10; }
+.b5 { background: #1f100e; color: #c07060; border: 1px solid #4a2010; }
+.cat { font-size: 0.68rem; color: var(--text-muted); margin-left: auto; font-style: italic; letter-spacing: 0.04em; }
+.q-type-badge { font-size: 0.65rem; color: var(--text-muted); border: 1px solid var(--border); padding: 0.1rem 0.45rem; border-radius: 20px; letter-spacing: 0.04em; white-space: nowrap; }
+.card-body { padding: 1rem 1.1rem 1.1rem; }
+.qtext { font-size: 1.05rem; color: var(--text); margin-bottom: 0.9rem; line-height: 1.65; }
+.qtext strong { color: var(--gold); font-weight: 600; }
+.qtext em { color: var(--text-dim); font-style: italic; }
+.options { display: flex; flex-direction: column; gap: 0.45rem; }
+.opt {
+  display: flex; align-items: flex-start; gap: 0.65rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.97rem;
+  color: var(--text);
+  text-align: left; width: 100%;
+  line-height: 1.4;
+}
+.opt:hover:not(:disabled) { border-color: var(--gold-dim); background: #1e1810; }
+.opt .ol { font-family: 'Libre Baskerville', serif; color: var(--gold-dim); font-size: 0.78rem; min-width: 1.1rem; padding-top: 0.1rem; flex-shrink: 0; }
+.opt.correct { border-color: var(--correct-border); background: var(--correct-bg); color: var(--correct-text); }
+.opt.wrong   { border-color: var(--wrong-border);   background: var(--wrong-bg);   color: var(--wrong-text); }
+.opt.reveal  { border-color: var(--correct-border); background: var(--reveal-bg);  color: var(--correct-text); opacity: 0.7; }
+.tf-row { display: flex; gap: 0.65rem; }
+.tf-btn {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.95rem; font-style: italic;
+  padding: 0.5rem 1.4rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tf-btn:hover:not(:disabled) { border-color: var(--gold-dim); background: #1e1810; }
+.tf-btn.correct { border-color: var(--correct-border); background: var(--correct-bg); color: var(--correct-text); }
+.tf-btn.wrong   { border-color: var(--wrong-border);   background: var(--wrong-bg);   color: var(--wrong-text); }
+.fill-row { display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap; }
+.fill-in {
+  font-family: 'Source Serif 4', serif;
+  font-size: 1rem;
+  padding: 0.48rem 0.8rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 2px;
+  flex: 1; min-width: 150px;
+  outline: none; transition: border-color 0.15s;
+}
+.fill-in:focus { border-color: var(--gold-dim); }
+.fill-in.correct { border-color: var(--correct-border); background: var(--correct-bg); color: var(--correct-text); }
+.fill-in.wrong   { border-color: var(--wrong-border);   background: var(--wrong-bg);   color: var(--wrong-text); }
+.check-btn {
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.88rem; font-weight: 600;
+  padding: 0.48rem 1.1rem;
+  border: 1px solid var(--gold-dim);
+  background: transparent;
+  color: var(--gold);
+  border-radius: 2px;
+  cursor: pointer; transition: all 0.15s;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.check-btn:hover:not(:disabled) { background: var(--gold-dim); color: #0e0c0a; }
+.check-btn:disabled { opacity: 0.35; cursor: default; }
+.fb {
+  display: none;
+  margin-top: 0.65rem;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 2px;
+  line-height: 1.5;
+}
+.fb.ok  { display: block; background: var(--correct-bg); color: var(--correct-text); border-left: 3px solid var(--correct-border); }
+.fb.err { display: block; background: var(--wrong-bg);   color: var(--wrong-text);   border-left: 3px solid var(--wrong-border); }
+#results {
+  display: none;
+  text-align: center;
+  padding: 3.5rem 2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  margin-top: 2rem;
+}
+#results h2 { font-family: 'Libre Baskerville', serif; font-size: 1.8rem; color: var(--gold); margin-bottom: 0.5rem; }
+.big-score { font-family: 'Libre Baskerville', serif; font-size: 5rem; color: var(--gold); line-height: 1; margin: 1.2rem 0 0.5rem; }
+.grade { font-size: 1.1rem; color: var(--text-dim); font-style: italic; margin-bottom: 2rem; }
+.restart {
+  font-family: 'Source Serif 4', serif; font-size: 0.95rem; font-weight: 600;
+  padding: 0.7rem 2.2rem;
+  border: 1px solid var(--gold-dim); background: transparent; color: var(--gold);
+  border-radius: 2px; cursor: pointer; transition: all 0.2s; letter-spacing: 0.06em;
+}
+.restart:hover { background: var(--gold); color: var(--bg); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="ornament">✦ ✦ ✦</div>
+  <h1>Términos Literarios en Español
+    <span>Examen Completo · Niveles 3, 4 y 5</span>
+  </h1>
+  <p class="meta">128 términos · Narrativa · Poesía · Drama · Retórica · Historia literaria</p>
+</header>
+
+<div id="scorebar">
+  <div class="stat"><span class="stat-dot dot-g"></span><span class="stat-val" id="sc-ok">0</span><span class="stat-label">correctas</span></div>
+  <div class="stat"><span class="stat-dot dot-r"></span><span class="stat-val" id="sc-err">0</span><span class="stat-label">incorrectas</span></div>
+  <div class="stat"><span class="stat-dot dot-y"></span><span class="stat-val" id="sc-rem">128</span><span class="stat-label">restantes</span></div>
+  <div class="progress-wrap"><div class="progress-fill" id="prog"></div></div>
+</div>
+
+<main id="qwrap"></main>
+
+<div id="results">
+  <h2>Examen finalizado</h2>
+  <div class="big-score" id="res-score">—</div>
+  <div class="grade" id="res-grade"></div>
+  <button class="restart" onclick="location.reload()">Repetir examen</button>
+</div>
+
+<script>
+const Q = [
+// ══ NIVEL 3 — BÁSICO ═════════════════════════════════════════════════════════
+{l:3,cat:'Narrativa',type:'mc',
+ q:'¿Cuál es la definición de <strong>prosa</strong>?',
+ o:['Lenguaje escrito en oraciones y párrafos sin estructura métrica fija','Texto en versos con rima consonante','Discurso largo de un personaje','Conjunto de versos agrupados'],a:0},
+
+{l:3,cat:'Poesía',type:'tf',
+ q:'La <strong>voz poética</strong> es necesariamente la misma persona que el autor real del poema.',a:false},
+
+{l:3,cat:'Poesía',type:'mc',
+ q:'¿Qué es un <strong>verso</strong>?',
+ o:['El tema central de un poema','Cada línea de un poema','Un conjunto de versos agrupados','La musicalidad creada por sonidos y pausas'],a:1},
+
+{l:3,cat:'Poesía',type:'tf',
+ q:'Una <strong>estrofa</strong> es un conjunto de versos agrupados.',a:true},
+
+{l:3,cat:'Poesía',type:'fill',
+ q:'La <strong>métrica</strong> es la medida o número de __________ en un verso.',a:'sílabas'},
+
+{l:3,cat:'Poesía',type:'mc',
+ q:'¿Qué crea el <strong>ritmo</strong> en un poema?',
+ o:['La cantidad de estrofas','La rima entre el primer y último verso','Musicalidad mediante sonidos, pausas y acentos','El número exacto de palabras por verso'],a:2},
+
+{l:3,cat:'Poesía',type:'mc',
+ q:'La <strong>rima consonante</strong> repite...',
+ o:['Solo las vocales desde la última sílaba tónica','Las consonantes al inicio de cada verso','Exactamente consonantes y vocales desde la última sílaba tónica','Solo el sonido de la última consonante'],a:2},
+
+{l:3,cat:'Poesía',type:'tf',
+ q:'La <strong>rima asonante</strong> repite solo las vocales desde la última sílaba tónica.',a:true},
+
+{l:3,cat:'Drama',type:'fill',
+ q:'Un <strong>monólogo</strong> es el discurso largo de un personaje que habla __________ o expresa sus pensamientos.',a:'solo'},
+
+// ══ NIVEL 4 — GENERAL ════════════════════════════════════════════════════════
+{l:4,cat:'General',type:'mc',
+ q:'La <strong>ambigüedad</strong> es...',
+ o:['Una imagen con significado simbólico profundo','Una expresión con más de un significado posible','Un contraste entre ideas opuestas','Una comparación entre dos cosas semejantes'],a:1},
+
+{l:4,cat:'General',type:'fill',
+ q:'Una <strong>analogía</strong> es una comparación entre dos cosas semejantes para __________ una idea.',a:'explicar'},
+
+{l:4,cat:'General',type:'mc',
+ q:'El <strong>antagonista</strong> es...',
+ o:['El narrador externo al relato','El personaje o fuerza que se opone al protagonista','El protagonista con defectos morales','El modelo universal de héroe'],a:1},
+
+{l:4,cat:'General',type:'tf',
+ q:'El <strong>antihéroe</strong> es un protagonista con defectos y sin cualidades heroicas tradicionales.',a:true},
+
+{l:4,cat:'General',type:'mc',
+ q:'Un <strong>arquetipo</strong> es...',
+ o:['Una figura retórica de repetición','Un modelo universal de personaje, situación o símbolo','Un movimiento literario del siglo XIX','Una pista que anuncia eventos futuros'],a:1},
+
+{l:4,cat:'General',type:'fill',
+ q:'La <strong>atmósfera</strong> es la sensación __________ que transmite una obra.',a:'emocional'},
+
+{l:4,cat:'General',type:'mc',
+ q:'La expresión latina <em>carpe diem</em> significa...',
+ o:['Recordatorio de la muerte','Aprovechar el momento presente','Reflexión sobre el destino trágico','Comenzar la historia en medio de la acción'],a:1},
+
+{l:4,cat:'General',type:'tf',
+ q:'El <strong>desenlace</strong> es el final o resolución del conflicto en una obra.',a:true},
+
+{l:4,cat:'General',type:'mc',
+ q:'Una <strong>fábula</strong> es...',
+ o:['Una novela larga sobre un pícaro astuto','Un relato breve con moraleja, generalmente con animales personificados','Un poema sobre hazañas heroicas','Una narración de hechos reales en orden cronológico'],a:1},
+
+{l:4,cat:'General',type:'fill',
+ q:'La técnica <strong>in medias res</strong> comienza la historia en __________ de la acción.',a:'medio'},
+
+{l:4,cat:'General',type:'mc',
+ q:'La <strong>ironía</strong> consiste en...',
+ o:['Una comparación directa usando "como"','Una contradicción entre lo esperado y lo que ocurre realmente','La repetición de palabras al inicio de frases','Un objeto que representa una idea profunda'],a:1},
+
+{l:4,cat:'General',type:'fill',
+ q:'<em>Memento mori</em> es el recordatorio de la __________ y de lo pasajero de la vida.',a:'muerte'},
+
+{l:4,cat:'General',type:'mc',
+ q:'Un <strong>símbolo</strong> literario es...',
+ o:['Un tipo de verso sin rima ni métrica','Un objeto o imagen que representa una idea más profunda','La actitud del autor hacia el tema','La secuencia de eventos de la historia'],a:1},
+
+{l:4,cat:'General',type:'tf',
+ q:'El <strong>tono</strong> es la actitud del autor hacia el tema o los personajes.',a:true},
+
+{l:4,cat:'General',type:'fill',
+ q:'La <strong>trama</strong> es la secuencia de __________ de la historia.',a:'eventos'},
+
+// ══ NIVEL 4 — NARRATIVA ══════════════════════════════════════════════════════
+{l:4,cat:'Narrativa',type:'mc',
+ q:'Una <strong>crónica</strong> es...',
+ o:['Una novela de aventuras caballerescas','Una narración de hechos reales en orden cronológico','Una técnica que reproduce el pensamiento continuo del personaje','Un tipo de relato breve con moraleja'],a:1},
+
+{l:4,cat:'Narrativa',type:'tf',
+ q:'El <strong>flashback</strong> es una interrupción temporal que muestra hechos del pasado.',a:true},
+
+{l:4,cat:'Narrativa',type:'mc',
+ q:'El <strong>fluir de conciencia</strong> es una técnica narrativa que...',
+ o:['Narra desde múltiples perspectivas a la vez','Reproduce los pensamientos continuos del personaje','Omite el inicio del relato para crear suspenso','Introduce al lector en medio de la acción'],a:1},
+
+{l:4,cat:'Narrativa',type:'fill',
+ q:'El <strong>narrador omnisciente</strong> conoce todo sobre __________ y eventos.',a:'personajes'},
+
+{l:4,cat:'Narrativa',type:'mc',
+ q:'El narrador <strong>limitado o en primera persona</strong> cuenta desde...',
+ o:['Una perspectiva total y objetiva','Una perspectiva parcial o personal','El punto de vista de todos los personajes','Del final hacia el inicio de la historia'],a:1},
+
+{l:4,cat:'Narrativa',type:'tf',
+ q:'La <strong>prefiguración</strong> son pistas que anuncian eventos futuros en la narración.',a:true},
+
+{l:4,cat:'Narrativa',type:'fill',
+ q:'El <strong>punto de vista</strong> o perspectiva es la posición desde la cual se __________ la historia.',a:'narra'},
+
+// ══ NIVEL 4 — POESÍA ═════════════════════════════════════════════════════════
+{l:4,cat:'Poesía',type:'mc',
+ q:'¿Cuántas sílabas tiene un verso <strong>heptasílabo</strong>?',
+ o:['6','7','8','9'],a:1},
+
+{l:4,cat:'Poesía',type:'mc',
+ q:'¿Cuántas sílabas tiene un verso <strong>octosílabo</strong>?',
+ o:['6','7','8','11'],a:2},
+
+{l:4,cat:'Poesía',type:'mc',
+ q:'¿Cuántas sílabas tiene un verso <strong>endecasílabo</strong>?',
+ o:['8','9','11','14'],a:2},
+
+{l:4,cat:'Poesía',type:'fill',
+ q:'El verso <strong>alejandrino</strong> tiene __________ sílabas.',a:'catorce'},
+
+{l:4,cat:'Poesía',type:'mc',
+ q:'Los versos de <strong>arte menor</strong> tienen...',
+ o:['Nueve sílabas o más','Ocho sílabas o menos','Exactamente siete sílabas','Once sílabas exactas'],a:1},
+
+{l:4,cat:'Poesía',type:'tf',
+ q:'Los versos de <strong>arte mayor</strong> son los de nueve sílabas o más.',a:true},
+
+{l:4,cat:'Poesía',type:'fill',
+ q:'El <strong>encabalgamiento</strong> es la continuación de una idea en el verso siguiente sin __________.',a:'pausa'},
+
+{l:4,cat:'Poesía',type:'mc',
+ q:'El <strong>estribillo</strong> es...',
+ o:['Un tipo de rima asonante entre versos pares','Un verso o grupo de versos que se repite a lo largo del poema','La unión de vocales entre palabras contiguas','Un poema de catorce versos endecasílabos'],a:1},
+
+{l:4,cat:'Poesía',type:'tf',
+ q:'La <strong>lírica</strong> es el género poético que expresa emociones y sentimientos.',a:true},
+
+{l:4,cat:'Poesía',type:'mc',
+ q:'Un <strong>poema épico</strong> es...',
+ o:['Un poema de catorce versos endecasílabos con rima fija','Un poema breve con moraleja didáctica','Un poema largo sobre hazañas heroicas','Un poema sin rima ni métrica fija'],a:2},
+
+{l:4,cat:'Poesía',type:'mc',
+ q:'La <strong>redondilla</strong> es una estrofa de cuatro versos octosílabos con rima...',
+ o:['ABAB','AABB','ABBA','ABCA'],a:2},
+
+{l:4,cat:'Poesía',type:'fill',
+ q:'El <strong>romance</strong> es un poema de versos octosílabos con rima asonante en los versos __________.',a:'pares'},
+
+{l:4,cat:'Poesía',type:'mc',
+ q:'La <strong>sinalefa</strong> consiste en...',
+ o:['La separación de un diptongo para añadir una sílaba','La unión de vocales entre palabras para contar sílabas métricas','La pausa dentro de un verso largo','La repetición de sonidos al inicio de versos'],a:1},
+
+{l:4,cat:'Poesía',type:'tf',
+ q:'El <strong>soneto</strong> es un poema de catorce versos endecasílabos.',a:true},
+
+{l:4,cat:'Poesía',type:'mc',
+ q:'Un <strong>verso agudo</strong> es aquel que termina en...',
+ o:['Palabra llana','Palabra esdrújula','Palabra aguda','Una sílaba átona'],a:2},
+
+{l:4,cat:'Poesía',type:'mc',
+ q:'Un <strong>verso esdrújulo</strong> termina en...',
+ o:['Palabra aguda','Palabra llana','Pausa o cesura','Palabra esdrújula'],a:3},
+
+{l:4,cat:'Poesía',type:'tf',
+ q:'Un <strong>verso llano</strong> es aquel que termina en palabra llana.',a:true},
+
+// ══ NIVEL 4 — DRAMA ══════════════════════════════════════════════════════════
+{l:4,cat:'Drama',type:'fill',
+ q:'La <strong>acción dramática</strong> es el desarrollo de los __________ en una obra teatral.',a:'acontecimientos'},
+
+{l:4,cat:'Drama',type:'mc',
+ q:'La <strong>exposición</strong> en el teatro es...',
+ o:['El momento de mayor tensión de la obra','La introducción de personajes y conflicto','La resolución final del conflicto','Un comentario que hace el personaje aparte'],a:1},
+
+{l:4,cat:'Drama',type:'tf',
+ q:'El <strong>nudo o clímax</strong> es el momento de mayor tensión en la obra teatral.',a:true},
+
+{l:4,cat:'Drama',type:'mc',
+ q:'Las <strong>acotaciones</strong> son...',
+ o:['Comentarios del público durante la obra','Indicaciones escénicas escritas por el autor','Diálogos rápidos entre personajes secundarios','Los monólogos del protagonista'],a:1},
+
+{l:4,cat:'Drama',type:'fill',
+ q:'El <strong>aparte</strong> es un comentario que un personaje hace para el __________ sin que los demás lo oigan.',a:'público'},
+
+{l:4,cat:'Drama',type:'mc',
+ q:'La <strong>Comedia del Siglo de Oro</strong> es...',
+ o:['Teatro griego de tema épico y trágico','Teatro español barroco de tono cómico y popular','Teatro del absurdo de origen francés','Teatro naturalista del siglo XIX'],a:1},
+
+{l:4,cat:'Drama',type:'fill',
+ q:'El <strong>dramaturgo</strong> es el __________ de obras teatrales.',a:'autor'},
+
+{l:4,cat:'Drama',type:'mc',
+ q:'El <strong>teatro del absurdo</strong> muestra...',
+ o:['Las hazañas de héroes épicos medievales','Lo ilógico y absurdo de la existencia humana','El costumbrismo popular del siglo XIX','Los conflictos amorosos del Barroco'],a:1},
+
+// ══ NIVEL 4 — FIGURAS RETÓRICAS ══════════════════════════════════════════════
+{l:4,cat:'Figuras retóricas',type:'mc',
+ q:'La <strong>anáfora</strong> consiste en...',
+ o:['La omisión de palabras que se sobreentienden','La repetición de palabras al inicio de versos o frases','El contraste entre dos ideas opuestas','Un rodeo de palabras para expresar una idea'],a:1},
+
+{l:4,cat:'Figuras retóricas',type:'tf',
+ q:'La <strong>antítesis</strong> es el contraste entre ideas opuestas.',a:true},
+
+{l:4,cat:'Figuras retóricas',type:'mc',
+ q:'El <strong>apóstrofe</strong> consiste en...',
+ o:['Eliminar conjunciones para agilizar el ritmo','Dirigirse directamente a alguien o algo','Usar una parte para representar el todo','Listar elementos de forma sucesiva'],a:1},
+
+{l:4,cat:'Figuras retóricas',type:'fill',
+ q:'La <strong>circunlocución</strong> o perífrasis es el __________ de palabras para expresar una idea.',a:'rodeo'},
+
+{l:4,cat:'Figuras retóricas',type:'mc',
+ q:'La <strong>elipsis</strong> es...',
+ o:['La repetición excesiva de conjunciones','La omisión de palabras que se sobreentienden','El orden progresivo de ideas o palabras','La alteración del orden normal de las palabras'],a:1},
+
+{l:4,cat:'Figuras retóricas',type:'tf',
+ q:'La <strong>enumeración</strong> es una lista sucesiva de elementos o ideas.',a:true},
+
+{l:4,cat:'Figuras retóricas',type:'fill',
+ q:'El <strong>eufemismo</strong> es una expresión suave para evitar algo __________ u ofensivo.',a:'desagradable'},
+
+{l:4,cat:'Figuras retóricas',type:'mc',
+ q:'La <strong>gradación</strong> es...',
+ o:['La omisión de conjunciones en una frase','El orden progresivo de ideas o palabras','La mezcla de sensaciones de distintos sentidos','La repetición de sonidos desagradables'],a:1},
+
+{l:4,cat:'Figuras retóricas',type:'tf',
+ q:'El <strong>hipérbaton</strong> consiste en la alteración del orden normal de las palabras.',a:true},
+
+// ══ NIVEL 4 — HISTORIA LITERARIA ═════════════════════════════════════════════
+{l:4,cat:'Historia literaria',type:'mc',
+ q:'El <strong>Barroco</strong> literario es un movimiento complejo y ornamentado del siglo...',
+ o:['XV','XVI','XVII','XVIII'],a:2},
+
+{l:4,cat:'Historia literaria',type:'fill',
+ q:'El <strong>Boom</strong> fue el auge de novelistas __________ del siglo XX.',a:'latinoamericanos'},
+
+{l:4,cat:'Historia literaria',type:'tf',
+ q:'La literatura <strong>colonial</strong> es la producida durante la época colonial.',a:true},
+
+{l:4,cat:'Historia literaria',type:'mc',
+ q:'La <strong>Edad Media</strong> es...',
+ o:['Un movimiento vanguardista del siglo XX','Un periodo histórico y literario medieval','Una corriente poética contemporánea','Un estilo barroco ornamental y complejo'],a:1},
+
+{l:4,cat:'Historia literaria',type:'fill',
+ q:'La <strong>Generación del 98</strong> son escritores españoles preocupados por la __________ de España.',a:'crisis'},
+
+{l:4,cat:'Historia literaria',type:'mc',
+ q:'El <strong>libro de caballerías</strong> es...',
+ o:['Una novela sobre un pícaro de baja clase social','Una novela sobre aventuras de caballeros','Un poema épico medieval','Un relato breve con moraleja didáctica'],a:1},
+
+{l:4,cat:'Historia literaria',type:'mc',
+ q:'El <strong>Modernismo</strong> literario busca principalmente...',
+ o:['Representar la realidad de forma científica y determinista','Belleza y renovación estética','Exaltar las emociones y la imaginación romántica','Mostrar lo ilógico de la existencia humana'],a:1},
+
+{l:4,cat:'Historia literaria',type:'fill',
+ q:'El <strong>Naturalismo</strong> muestra la realidad de forma científica y __________.',a:'determinista'},
+
+{l:4,cat:'Historia literaria',type:'mc',
+ q:'La <strong>novela picaresca</strong> es una novela sobre...',
+ o:['Un caballero medieval en busca de aventuras','Un pícaro de baja clase social que sobrevive con ingenio','Un poeta en búsqueda de la belleza ideal','Hechos reales narrados en orden cronológico'],a:1},
+
+{l:4,cat:'Historia literaria',type:'fill',
+ q:'El <strong>pícaro</strong> es un personaje astuto que sobrevive mediante __________.',a:'engaños'},
+
+{l:4,cat:'Historia literaria',type:'mc',
+ q:'El <strong>Realismo</strong> literario es...',
+ o:['La mezcla de lo real con elementos fantásticos','La representación objetiva de la realidad cotidiana','Un movimiento que exalta la emoción y la imaginación','Un estilo inspirado en el Barroco ornamental'],a:1},
+
+{l:4,cat:'Historia literaria',type:'tf',
+ q:'El <strong>Realismo mágico</strong> mezcla lo real con elementos fantásticos.',a:true},
+
+{l:4,cat:'Historia literaria',type:'fill',
+ q:'El <strong>Renacimiento</strong> es un movimiento cultural inspirado en la antigüedad __________.',a:'clásica'},
+
+{l:4,cat:'Historia literaria',type:'mc',
+ q:'El <strong>Romanticismo</strong> es un movimiento que...',
+ o:['Representa la realidad de forma científica','Exalta las emociones e imaginación','Se basa en juegos de ideas y agudeza intelectual','Cuestiona verdades absolutas y mezcla estilos'],a:1},
+
+{l:4,cat:'Historia literaria',type:'tf',
+ q:'El <strong>Siglo de Oro</strong> español es una época de gran producción artística y literaria.',a:true},
+
+// ══ NIVEL 5 — GENERAL ════════════════════════════════════════════════════════
+{l:5,cat:'General',type:'mc',
+ q:'Una <strong>alegoría</strong> es...',
+ o:['La repetición de un elemento con significado especial','Un relato o imagen con significado simbólico más profundo','La imitación burlesca de una obra o estilo','La presencia de múltiples voces en un texto'],a:1},
+
+{l:5,cat:'General',type:'fill',
+ q:'Una <strong>apología</strong> es la defensa o __________ de una idea o persona.',a:'alabanza'},
+
+{l:5,cat:'General',type:'mc',
+ q:'La <strong>caricatura</strong> literaria es...',
+ o:['Un poema sin rima ni métrica fija','Una representación exagerada de rasgos para criticar o burlarse','Un movimiento que explora el subconsciente','Un relato con enseñanza moral o espiritual'],a:1},
+
+{l:5,cat:'General',type:'fill',
+ q:'El <strong>cromatismo</strong> o simbolismo cromático es el uso de __________ con significado simbólico.',a:'colores'},
+
+{l:5,cat:'General',type:'mc',
+ q:'El <strong>desdoblamiento</strong> es...',
+ o:['La liberación emocional del público','La división o duplicación de la identidad de un personaje','Un elemento que se repite con significado especial','La reflexión de una obra sobre su propia ficción'],a:1},
+
+{l:5,cat:'General',type:'fill',
+ q:'El <strong>leitmotiv</strong> es un tema o elemento que se __________ con significado especial.',a:'repite'},
+
+{l:5,cat:'General',type:'mc',
+ q:'La <strong>metaficción</strong> es...',
+ o:['Una narración construida con cartas o mensajes','Una obra que reflexiona sobre su propia ficción','La crítica social mediante humor o ironía','La imitación burlesca de un estilo literario'],a:1},
+
+{l:5,cat:'General',type:'tf',
+ q:'La <strong>parodia</strong> es la imitación burlesca de una obra o estilo.',a:true},
+
+{l:5,cat:'General',type:'fill',
+ q:'La <strong>sátira</strong> es la crítica social mediante __________ o ironía.',a:'humor'},
+
+// ══ NIVEL 5 — NARRATIVA ══════════════════════════════════════════════════════
+{l:5,cat:'Narrativa',type:'mc',
+ q:'La <strong>narrativa epistolar</strong> es una narración construida con...',
+ o:['Monólogos interiores del protagonista','Cartas o mensajes entre personajes','Múltiples narradores omniscientes','Interrupciones temporales hacia el pasado'],a:1},
+
+{l:5,cat:'Narrativa',type:'tf',
+ q:'Un <strong>narrador fidedigno</strong> es un narrador confiable.',a:true},
+
+{l:5,cat:'Narrativa',type:'mc',
+ q:'Un <strong>narrador no fidedigno</strong> es...',
+ o:['Un narrador externo y objetivo al relato','Un narrador que conoce todo sobre los personajes','Un narrador poco confiable o engañoso','Un narrador que observa los hechos sin participar'],a:2},
+
+{l:5,cat:'Narrativa',type:'fill',
+ q:'El <strong>narrador testigo</strong> observa los hechos sin ser __________.',a:'protagonista'},
+
+{l:5,cat:'Narrativa',type:'mc',
+ q:'El <strong>narratario</strong> es...',
+ o:['El autor implícito de la obra literaria','El destinatario interno del relato','El narrador que observa sin participar','El personaje que cuenta la historia'],a:1},
+
+{l:5,cat:'Narrativa',type:'tf',
+ q:'Una <strong>parábola</strong> es un relato con enseñanza moral o espiritual.',a:true},
+
+// ══ NIVEL 5 — POESÍA ═════════════════════════════════════════════════════════
+{l:5,cat:'Poesía',type:'mc',
+ q:'La <strong>diéresis</strong> es...',
+ o:['La unión de vocales dentro de una misma palabra','La pausa marcada dentro de un verso largo','La separación de un diptongo para añadir una sílaba métrica','La pronunciación separada de vocales en palabras distintas'],a:2},
+
+{l:5,cat:'Poesía',type:'fill',
+ q:'El <strong>hiato</strong> es la pronunciación separada de vocales __________.',a:'contiguas'},
+
+{l:5,cat:'Poesía',type:'mc',
+ q:'La <strong>sinéresis</strong> es...',
+ o:['La separación de vocales para añadir sílabas al verso','La unión de vocales dentro de una palabra para reducir sílabas métricas','Una pausa marcada en medio del verso','La eliminación del primer verso de una estrofa'],a:1},
+
+{l:5,cat:'Poesía',type:'tf',
+ q:'El <strong>verso blanco o suelto</strong> no tiene rima pero sí tiene métrica regular.',a:true},
+
+{l:5,cat:'Poesía',type:'mc',
+ q:'El <strong>verso libre</strong> se caracteriza por...',
+ o:['Tener rima consonante pero métrica variable','No tener ni rima ni métrica fija','Ser siempre de once sílabas sin rima','Combinar heptasílabos y endecasílabos'],a:1},
+
+{l:5,cat:'Poesía',type:'fill',
+ q:'La <strong>cesura</strong> es una __________ dentro de un verso largo.',a:'pausa'},
+
+{l:5,cat:'Poesía',type:'mc',
+ q:'Un <strong>hemistiquio</strong> es...',
+ o:['Un verso de siete sílabas','Una estrofa de cuatro versos','Cada parte de un verso dividido por la cesura','Un poema épico griego clásico'],a:2},
+
+{l:5,cat:'Poesía',type:'tf',
+ q:'La <strong>polifonía</strong> literaria se refiere a la presencia de múltiples voces o perspectivas.',a:true},
+
+{l:5,cat:'Poesía',type:'fill',
+ q:'La <strong>polimetría</strong> es el uso de versos de distintas __________.',a:'métricas'},
+
+{l:5,cat:'Poesía',type:'mc',
+ q:'La <strong>silva</strong> es una combinación de versos...',
+ o:['Octosílabos y alejandrinos','Heptasílabos y endecasílabos','Endecasílabos y alejandrinos','Octosílabos y endecasílabos'],a:1},
+
+// ══ NIVEL 5 — DRAMA ══════════════════════════════════════════════════════════
+{l:5,cat:'Drama',type:'fill',
+ q:'La <strong>anagnórisis</strong> es el momento de __________ o descubrimiento importante en la obra.',a:'reconocimiento'},
+
+{l:5,cat:'Drama',type:'mc',
+ q:'La <strong>catarsis</strong> es...',
+ o:['El defecto del protagonista que causa su caída','La liberación emocional del público','El momento de reconocimiento del héroe','Las reglas clásicas de tiempo, acción y lugar'],a:1},
+
+{l:5,cat:'Drama',type:'fill',
+ q:'La <strong>falla trágica</strong> es el __________ del protagonista que causa su caída.',a:'defecto'},
+
+{l:5,cat:'Drama',type:'mc',
+ q:'La <strong>ironía dramática</strong> ocurre cuando...',
+ o:['El protagonista ignora que es el héroe de la historia','El público sabe algo que los personajes no saben','Dos personajes dicen lo contrario de lo que sienten','El narrador engaña deliberadamente al lector'],a:1},
+
+{l:5,cat:'Drama',type:'tf',
+ q:'El <strong>pathos</strong> es el elemento que provoca compasión o emoción intensa en el público.',a:true},
+
+{l:5,cat:'Drama',type:'mc',
+ q:'Las <strong>tres unidades</strong> clásicas del teatro son las de acción, tiempo y...',
+ o:['Personaje','Conflicto','Lugar','Tono'],a:2},
+
+// ══ NIVEL 5 — FIGURAS RETÓRICAS ══════════════════════════════════════════════
+{l:5,cat:'Figuras retóricas',type:'mc',
+ q:'El <strong>asíndeton</strong> consiste en...',
+ o:['La repetición excesiva de conjunciones','La eliminación de conjunciones en una frase o verso','El orden creciente de ideas','La unión de ideas contradictorias con sentido'],a:1},
+
+{l:5,cat:'Figuras retóricas',type:'fill',
+ q:'La <strong>cacofonía</strong> es la repetición de sonidos __________.',a:'desagradables'},
+
+{l:5,cat:'Figuras retóricas',type:'mc',
+ q:'El <strong>epíteto</strong> es...',
+ o:['Un juego de palabras con inversión de términos','Un adjetivo que destaca una cualidad obvia o característica','La sustitución de una palabra por otra relacionada','Una lista sucesiva de elementos o ideas'],a:1},
+
+{l:5,cat:'Figuras retóricas',type:'tf',
+ q:'La <strong>metonimia</strong> es la sustitución de una palabra por otra relacionada con ella.',a:true},
+
+{l:5,cat:'Figuras retóricas',type:'mc',
+ q:'Una <strong>paradoja</strong> es...',
+ o:['La omisión de palabras sobreentendidas','La unión de ideas contradictorias que tienen sentido','La repetición de vocales desde la sílaba tónica','Un rodeo de palabras para expresar una idea'],a:1},
+
+{l:5,cat:'Figuras retóricas',type:'fill',
+ q:'El <strong>polisíndeton</strong> es la repetición __________ de conjunciones.',a:'excesiva'},
+
+{l:5,cat:'Figuras retóricas',type:'mc',
+ q:'La <strong>sinécdoque</strong> consiste en...',
+ o:['Mezclar sensaciones de distintos sentidos','Usar una parte para representar el todo, o viceversa','Eliminar conjunciones para agilizar una frase','Dirigirse directamente a algo o alguien ausente'],a:1},
+
+{l:5,cat:'Figuras retóricas',type:'tf',
+ q:'La <strong>sinestesia</strong> es la mezcla de sensaciones de distintos sentidos.',a:true},
+
+{l:5,cat:'Figuras retóricas',type:'fill',
+ q:'El <strong>retruécano</strong> es un juego de palabras con __________ de términos.',a:'inversión'},
+
+// ══ NIVEL 5 — HISTORIA LITERARIA ═════════════════════════════════════════════
+{l:5,cat:'Historia literaria',type:'mc',
+ q:'El <strong>conceptismo</strong> es un estilo barroco basado en...',
+ o:['Lenguaje ornamental y visualmente complejo','Juegos de ideas y agudeza intelectual','La representación de costumbres y vida popular','El uso de colores con significado simbólico'],a:1},
+
+{l:5,cat:'Historia literaria',type:'fill',
+ q:'El <strong>culteranismo</strong> es un estilo barroco __________ y complejo.',a:'ornamental'},
+
+{l:5,cat:'Historia literaria',type:'mc',
+ q:'El <strong>costumbrismo</strong> es...',
+ o:['Un movimiento que explora el subconsciente','La representación de costumbres y vida cotidiana','Una corriente que reflexiona sobre la existencia humana','Un movimiento inspirado en orden y razón clásicos'],a:1},
+
+{l:5,cat:'Historia literaria',type:'fill',
+ q:'El <strong>existencialismo</strong> es la corriente que reflexiona sobre la __________ humana.',a:'existencia'},
+
+{l:5,cat:'Historia literaria',type:'mc',
+ q:'El <strong>Neoclasicismo</strong> es un movimiento inspirado en...',
+ o:['Las emociones y el mundo subconsciente','El orden y la razón clásicos','La vida cotidiana y las costumbres regionales','La mezcla de estilos y cuestionamiento de verdades'],a:1},
+
+{l:5,cat:'Historia literaria',type:'tf',
+ q:'El <strong>postmodernismo</strong> cuestiona verdades absolutas y mezcla estilos.',a:true},
+
+{l:5,cat:'Historia literaria',type:'mc',
+ q:'El <strong>surrealismo</strong> es un movimiento que explora...',
+ o:['La razón y el orden clásico','El subconsciente y los sueños','Las costumbres y la vida cotidiana','Los juegos de ideas y la agudeza intelectual'],a:1},
+
+{l:5,cat:'Historia literaria',type:'fill',
+ q:'La <strong>vanguardia</strong> son movimientos innovadores que rompen con las __________ artísticas.',a:'tradiciones'},
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let nCorrect=0, nWrong=0, nAnswered=0;
+const TOTAL=Q.length;
+
+function updateBar(){
+  document.getElementById('sc-ok').textContent=nCorrect;
+  document.getElementById('sc-err').textContent=nWrong;
+  document.getElementById('sc-rem').textContent=TOTAL-nAnswered;
+  document.getElementById('prog').style.width=(nAnswered/TOTAL*100)+'%';
+  if(nAnswered===TOTAL) setTimeout(showResults,700);
+}
+
+function markAnswered(ok){ nAnswered++; if(ok) nCorrect++; else nWrong++; updateBar(); }
+
+function levelBadge(l){
+  return l===3?'<span class="badge b3">Nivel 3 · Básico</span>':
+         l===4?'<span class="badge b4">Nivel 4 · Intermedio</span>':
+               '<span class="badge b5">Nivel 5 · Avanzado</span>';
+}
+
+function typeLabel(t){ return t==='mc'?'opción múltiple':t==='tf'?'V / F':'completar'; }
+
+function makeCard(q,i){
+  const num=String(i+1).padStart(3,'0');
+  const top=`<div class="card-top"><span class="q-num">${num}</span>${levelBadge(q.l)}<span class="cat">${q.cat}</span><span class="q-type-badge">${typeLabel(q.type)}</span></div>`;
+  let body='';
+  if(q.type==='mc'){
+    const opts=q.o.map((o,j)=>`<button class="opt" data-j="${j}" onclick="doMC(${i},${j},${q.a},this)"><span class="ol">${'ABCD'[j]}.</span><span>${o}</span></button>`).join('');
+    body=`<p class="qtext">${q.q}</p><div class="options">${opts}</div>`;
+  } else if(q.type==='tf'){
+    body=`<p class="qtext">${q.q}</p><div class="tf-row"><button class="tf-btn" onclick="doTF(${i},true,${q.a},this)">Verdadero</button><button class="tf-btn" onclick="doTF(${i},false,${q.a},this)">Falso</button></div>`;
+  } else {
+    const esc=q.a.replace(/'/g,"\\'");
+    body=`<p class="qtext">${q.q}</p><div class="fill-row"><input class="fill-in" id="fi${i}" type="text" placeholder="Escribe aquí…" autocomplete="off" onkeydown="if(event.key==='Enter')doFill(${i},'${esc}')"><button class="check-btn" id="cb${i}" onclick="doFill(${i},'${esc}')">Verificar</button></div>`;
+  }
+  const d=document.createElement('div');
+  d.className='card'; d.id='card'+i;
+  d.innerHTML=top+`<div class="card-body">${body}<div class="fb" id="fb${i}"></div></div>`;
+  return d;
+}
+
+function norm(s){ return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+
+function showFb(i,ok,msg){
+  const el=document.getElementById('fb'+i);
+  el.className='fb '+(ok?'ok':'err');
+  el.textContent=msg;
+}
+
+function doMC(i,chosen,correct,btn){
+  document.getElementById('card'+i).querySelectorAll('.opt').forEach(b=>{
+    b.disabled=true;
+    if(parseInt(b.dataset.j)===correct) b.classList.add(chosen===correct?'correct':'reveal');
+  });
+  const ok=chosen===correct;
+  if(!ok) btn.classList.add('wrong');
+  showFb(i,ok,ok?'✓ Correcto.':'✗ Incorrecto. La respuesta correcta está resaltada.');
+  markAnswered(ok);
+}
+
+function doTF(i,chosen,correct,btn){
+  document.getElementById('card'+i).querySelectorAll('.tf-btn').forEach(b=>b.disabled=true);
+  const ok=chosen===correct;
+  btn.classList.add(ok?'correct':'wrong');
+  if(!ok){
+    document.getElementById('card'+i).querySelectorAll('.tf-btn').forEach(b=>{
+      if((b.textContent==='Verdadero'&&correct)||(b.textContent==='Falso'&&!correct)) b.classList.add('correct');
+    });
+  }
+  showFb(i,ok,ok?'✓ Correcto.':`✗ Incorrecto. La respuesta es: ${correct?'Verdadero':'Falso'}.`);
+  markAnswered(ok);
+}
+
+function doFill(i,ans){
+  const inp=document.getElementById('fi'+i);
+  const cb=document.getElementById('cb'+i);
+  const val=norm(inp.value);
+  const target=norm(ans);
+  inp.disabled=true; cb.disabled=true;
+  const ok=val===target||(val.length>=4&&target.includes(val));
+  inp.classList.add(ok?'correct':'wrong');
+  showFb(i,ok,ok?`✓ Correcto: "${ans}".`:`✗ Incorrecto. La respuesta correcta es: "${ans}".`);
+  markAnswered(ok);
+}
+
+function showResults(){
+  const pct=Math.round(nCorrect/TOTAL*100);
+  const grade=pct>=90?'¡Sobresaliente! Dominas el léxico literario.':
+              pct>=75?'Notable. Muy sólido conocimiento.':
+              pct>=60?'Aprobado. Repasa los términos que fallaste.':
+                      'Necesitas repasar el material con más detalle.';
+  document.getElementById('res-score').textContent=`${nCorrect}/${TOTAL}`;
+  document.getElementById('res-grade').textContent=`${pct}% — ${grade}`;
+  const r=document.getElementById('results');
+  r.style.display='block';
+  r.scrollIntoView({behavior:'smooth'});
+}
+
+const wrap=document.getElementById('qwrap');
+Q.forEach((q,i)=>wrap.appendChild(makeCard(q,i)));
+updateBar();
+</script>
+</body>
+</html>
